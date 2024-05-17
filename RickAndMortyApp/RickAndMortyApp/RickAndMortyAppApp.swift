@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct RickAndMortyAppApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
-        }
-    }
+   var body: some Scene {
+      WindowGroup {
+         SplashScreenView {
+            CharactersView(viewModel: CharactersViewModel(charactersUseCase: .live))
+         } splashScreenImage: {
+            Image("SplashScreen")
+               .resizable()
+         }
+      }
+   }
 }
