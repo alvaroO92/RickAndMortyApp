@@ -19,7 +19,7 @@
 		3859A08A2BF781B3006D87F4 /* CharactersUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3859A0602BF781B2006D87F4 /* CharactersUseCase.swift */; };
 		3859A08B2BF781B3006D87F4 /* CharactersUseCaseLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3859A0612BF781B2006D87F4 /* CharactersUseCaseLive.swift */; };
 		3859A08C2BF781B3006D87F4 /* CharactersUseCaseMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3859A0622BF781B2006D87F4 /* CharactersUseCaseMock.swift */; };
-		3859A08D2BF781B3006D87F4 /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3859A0652BF781B2006D87F4 /* Color+Extensions.swift */; };
+		3859A08D2BF781B3006D87F4 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3859A0652BF781B2006D87F4 /* Color.swift */; };
 		3859A08E2BF781B3006D87F4 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3859A0672BF781B2006D87F4 /* Logger.swift */; };
 		3859A0902BF781B3006D87F4 /* CategoryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3859A06B2BF781B2006D87F4 /* CategoryItemView.swift */; };
 		3859A0912BF781B3006D87F4 /* CharacterRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3859A06C2BF781B2006D87F4 /* CharacterRowView.swift */; };
@@ -42,6 +42,10 @@
 		3859A0A42BF782D4006D87F4 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3859A0A32BF782D4006D87F4 /* SDWebImageSwiftUI */; };
 		3859A0A72BF782EA006D87F4 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3859A0A62BF782EA006D87F4 /* Alamofire */; };
 		3859A0A92BF782EA006D87F4 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 3859A0A82BF782EA006D87F4 /* AlamofireDynamic */; };
+		3859A0B12BF7926B006D87F4 /* MockNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3859A0B02BF7926B006D87F4 /* MockNetworkRequest.swift */; };
+		3859A0B32BF79294006D87F4 /* NetworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3859A0B22BF79294006D87F4 /* NetworkTest.swift */; };
+		386D53122BF8BBAE00552E58 /* AlamofireNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386D53112BF8BBAE00552E58 /* AlamofireNetworkRequest.swift */; };
+		386D53182BF8C6DF00552E58 /* JsonEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386D53172BF8C6DF00552E58 /* JsonEncoder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,7 +82,7 @@
 		3859A0602BF781B2006D87F4 /* CharactersUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharactersUseCase.swift; sourceTree = "<group>"; };
 		3859A0612BF781B2006D87F4 /* CharactersUseCaseLive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharactersUseCaseLive.swift; sourceTree = "<group>"; };
 		3859A0622BF781B2006D87F4 /* CharactersUseCaseMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharactersUseCaseMock.swift; sourceTree = "<group>"; };
-		3859A0652BF781B2006D87F4 /* Color+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
+		3859A0652BF781B2006D87F4 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		3859A0672BF781B2006D87F4 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		3859A06B2BF781B2006D87F4 /* CategoryItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryItemView.swift; sourceTree = "<group>"; };
 		3859A06C2BF781B2006D87F4 /* CharacterRowView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharacterRowView.swift; sourceTree = "<group>"; };
@@ -98,6 +102,10 @@
 		3859A0812BF781B2006D87F4 /* CharactersRespository.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharactersRespository.swift; sourceTree = "<group>"; };
 		3859A0822BF781B2006D87F4 /* CharactersRespositoryLive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharactersRespositoryLive.swift; sourceTree = "<group>"; };
 		3859A0832BF781B2006D87F4 /* CharactersRespositoryMock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CharactersRespositoryMock.swift; sourceTree = "<group>"; };
+		3859A0B02BF7926B006D87F4 /* MockNetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockNetworkRequest.swift; sourceTree = "<group>"; };
+		3859A0B22BF79294006D87F4 /* NetworkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTest.swift; sourceTree = "<group>"; };
+		386D53112BF8BBAE00552E58 /* AlamofireNetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireNetworkRequest.swift; sourceTree = "<group>"; };
+		386D53172BF8C6DF00552E58 /* JsonEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonEncoder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +182,7 @@
 		3859A0412BF73923006D87F4 /* RickAndMortyAppTests */ = {
 			isa = PBXGroup;
 			children = (
+				3859A0AA2BF7895B006D87F4 /* Data */,
 				3859A0422BF73923006D87F4 /* RickAndMortyAppTests.swift */,
 			);
 			path = RickAndMortyAppTests;
@@ -218,7 +227,8 @@
 		3859A0662BF781B2006D87F4 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				3859A0652BF781B2006D87F4 /* Color+Extensions.swift */,
+				3859A0652BF781B2006D87F4 /* Color.swift */,
+				386D53172BF8C6DF00552E58 /* JsonEncoder.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -287,6 +297,7 @@
 				3859A0772BF781B2006D87F4 /* ApiConstants.swift */,
 				3859A0782BF781B2006D87F4 /* HttpStatusCode.swift */,
 				3859A0792BF781B2006D87F4 /* Network.swift */,
+				386D53112BF8BBAE00552E58 /* AlamofireNetworkRequest.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -334,6 +345,15 @@
 				3859A07C2BF781B2006D87F4 /* Datasource */,
 				3859A0802BF781B2006D87F4 /* Dto */,
 				3859A0852BF781B2006D87F4 /* Repository */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		3859A0AA2BF7895B006D87F4 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				3859A0B02BF7926B006D87F4 /* MockNetworkRequest.swift */,
+				3859A0B22BF79294006D87F4 /* NetworkTest.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -481,14 +501,16 @@
 				3859A0A02BF781B3006D87F4 /* CharactersRespositoryLive.swift in Sources */,
 				3859A0332BF73921006D87F4 /* ContentView.swift in Sources */,
 				3859A08C2BF781B3006D87F4 /* CharactersUseCaseMock.swift in Sources */,
-				3859A08D2BF781B3006D87F4 /* Color+Extensions.swift in Sources */,
+				3859A08D2BF781B3006D87F4 /* Color.swift in Sources */,
 				3859A08B2BF781B3006D87F4 /* CharactersUseCaseLive.swift in Sources */,
 				3859A09E2BF781B3006D87F4 /* PaginationDto.swift in Sources */,
+				386D53122BF8BBAE00552E58 /* AlamofireNetworkRequest.swift in Sources */,
 				3859A0912BF781B3006D87F4 /* CharacterRowView.swift in Sources */,
 				3859A08A2BF781B3006D87F4 /* CharactersUseCase.swift in Sources */,
 				3859A0922BF781B3006D87F4 /* SubCategoriesSheetView.swift in Sources */,
 				3859A08E2BF781B3006D87F4 /* Logger.swift in Sources */,
 				3859A0312BF73921006D87F4 /* RickAndMortyAppApp.swift in Sources */,
+				386D53182BF8C6DF00552E58 /* JsonEncoder.swift in Sources */,
 				3859A09D2BF781B3006D87F4 /* CharactersDto.swift in Sources */,
 				3859A0A12BF781B3006D87F4 /* CharactersRespositoryMock.swift in Sources */,
 				3859A0962BF781B3006D87F4 /* SplashScreenView.swift in Sources */,
@@ -511,6 +533,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3859A0B12BF7926B006D87F4 /* MockNetworkRequest.swift in Sources */,
+				3859A0B32BF79294006D87F4 /* NetworkTest.swift in Sources */,
 				3859A0432BF73923006D87F4 /* RickAndMortyAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

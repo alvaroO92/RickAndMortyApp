@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CharactersDto: Decodable {
+struct CharactersDto: Codable {
     var info: PaginationDto
     var results: [CharacterDto]
 }

@@ -124,7 +124,7 @@ final class CharactersViewModel: ObservableObject {
     }
 
     private func handleError(_ error: Error) {
-        Logger.log(model: .init(logType: .error, responseData: error.localizedDescription))
+       Logger.log(model: .init(logType: .error, description: error.localizedDescription))
         updateState(.error(error.localizedDescription))
     }
     

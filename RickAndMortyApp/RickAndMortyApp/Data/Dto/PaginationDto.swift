@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PaginationDto: Decodable {
+struct PaginationDto: Codable {
     let pages: Int
     let count: Int
     let next: String?
