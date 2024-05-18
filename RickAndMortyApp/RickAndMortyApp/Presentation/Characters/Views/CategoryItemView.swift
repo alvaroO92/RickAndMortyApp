@@ -21,6 +21,8 @@ struct CategoryItemView: View {
               .background(Color(hex: category.colorString))
               .foregroundColor(.white)
               .cornerRadius(8)
+              .overlay(RoundedRectangle(cornerRadius: 8)
+              .stroke(category.isSelected ? Color(hex: "#97ce4c") : .clear, lineWidth: 3))
               .onTapGesture {
                   onTap()
               }

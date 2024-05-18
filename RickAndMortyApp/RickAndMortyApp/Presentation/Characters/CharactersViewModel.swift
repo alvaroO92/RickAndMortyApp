@@ -29,63 +29,80 @@ final class CharactersViewModel: ObservableObject {
     }
     
     // MARK: - Public Methods
+    
+    /// Handles various events and updates the state accordingly.
     func send(_ event: Event) {
         Task {
             await handleEvent(event)
         }
     }
 
+    // MARK: - Private Methods
+    
+    /// Handles the events and performs corresponding actions.
     private func handleEvent(_ event: Event) async {
         do {
             switch event {
             case .viewAppeared, .refresh:
-                try await fetchDataIfNeeded(resetPagination: true, resetData: true) // Refresh or initial load, reset both pagination and data
+                await refreshData()
             case .loadMore:
-                try await fetchDataIfNeeded(resetPagination: false, resetData: false) // Load more data, don't reset anything
+                try await fetchDataIfNeeded(resetPagination: false, resetData: false)
             case .search(let value):
                 updateState(.loading)
-                let filteredCharacters = search(text: value) // Filter characters based on search text
+                let filteredCharacters = search(text: value)
                 updateState(.loaded(.init(characters: filteredCharacters, categories: state.loadedState?.categories ?? [], categorySelected: state.loadedState?.categorySelected)))
             case .categoryTapped(let categoryName):
                 await categoryTapped(categoryName)
             case .subCategoryTapped(let category):
                 await updateStateAfterSubCategoryTapped(category: category)
             case .toggleCategorySelection(let categoryName):
-                guard let loadedState = state.loadedState,
-                      let index = loadedState.categories.firstIndex(where: { $0.text == categoryName }) else {
-                    return
-                }
-                var updatedCategories = loadedState.categories
-                updatedCategories[index].isSelected.toggle()
-                updateState(.loaded(.init(characters: loadedState.characters, categories: updatedCategories, categorySelected: loadedState.categorySelected)))
+                toggleCategorySelection(categoryName: categoryName)
             }
         } catch {
             handleError(error)
         }
     }
     
-    // MARK: - Private Methods
+    /// Refreshes the data by resetting the state and fetching data.
+    private func refreshData() async {
+        resetState()
+        do {
+            try await fetchDataIfNeeded(resetPagination: true, resetData: true)
+        } catch {
+            handleError(error)
+        }
+    }
+
+    /// Resets the state to its initial values.
+    private func resetState() {
+        currentPage = 1
+        allCharacters = []
+        filteredCharacters = []
+        currentCategory = nil
+        currentSubCategory = nil
+        resetCategorySelection()
+    }
+
+    /// Fetches data if needed and updates the state accordingly.
     private func fetchDataIfNeeded(resetPagination: Bool, resetData: Bool) async throws {
         guard !isFetchingData else { return }
         isFetchingData = true
         
+        defer { isFetchingData = false }
+        
         if resetPagination {
             currentPage = 1
-            filteredCharacters = [] // Reset filtered characters if resetting pagination
+            filteredCharacters = []
         }
         
         if resetData {
-            allCharacters = [] // Reset all characters if needed
+            allCharacters = []
             filteredCharacters = []
-            currentSubCategory = nil // Ensure no subcategory selected
+            currentSubCategory = nil
         }
 
         let response = try await charactersUseCase.getCharacters(currentPage)
-        if resetPagination {
-            allCharacters = response.characters
-        } else {
-            allCharacters.append(contentsOf: response.characters)
-        }
+        allCharacters.append(contentsOf: response.characters)
         
         if let subCategory = currentSubCategory {
             filteredCharacters = filterCharacters(bySubCategory: subCategory, in: allCharacters)
@@ -93,17 +110,32 @@ final class CharactersViewModel: ObservableObject {
             filteredCharacters = allCharacters
         }
         
-        updateStateWithAllCharacters() // Update state with filtered or all characters
+        updateStateWithAllCharacters()
         
         currentPage += 1
-        isFetchingData = false
     }
 
-    
-    private func updateStateWithAllCharacters() {
-        updateState(.loaded(.init(characters: filteredCharacters, categories: Category.allCases.map { CharacterViewModel(text: $0.rawValue, colorString: $0.color) }, categorySelected: currentCategory)))
+    /// Resets the selection of all categories.
+    private func resetCategorySelection() {
+        guard let loadedState = state.loadedState else { return }
+        let updatedCategories = loadedState.categories.map { category in
+            var updatedCategory = category
+            updatedCategory.isSelected = false
+            return updatedCategory
+        }
+        updateState(.loaded(loadedState.newState(categories: updatedCategories, categorySelected: nil)))
     }
-    
+
+    /// Updates the state with all characters.
+    private func updateStateWithAllCharacters() {
+        guard let loadedState = state.loadedState else {
+            updateState(.loaded(.init(characters: filteredCharacters, categories: Category.allCases.map { CharacterViewModel(text: $0.rawValue, colorString: $0.color) }, categorySelected: nil)))
+            return
+        }
+        updateState(.loaded(.init(characters: filteredCharacters, categories: loadedState.categories, categorySelected: currentCategory)))
+    }
+
+    /// Searches for characters based on the provided text.
     private func search(text: String) -> [Character] {
         guard !text.isEmpty else {
             return allCharacters
@@ -116,18 +148,21 @@ final class CharactersViewModel: ObservableObject {
             return nameLowercased.contains(searchTextLowercased)
         }
     }
-    
+
+    /// Updates the state ensuring it is called on the main thread.
     private func updateState(_ newState: State) {
         DispatchQueue.main.async {
             self.state = newState
         }
     }
 
+    /// Handles errors by logging them and updating the state.
     private func handleError(_ error: Error) {
-       Logger().log(model: .init(logType: .error, description: error.localizedDescription))
+        Logger().log(model: .init(logType: .error, description: error.localizedDescription))
         updateState(.error(error.localizedDescription))
     }
-    
+
+    /// Handles the tapping of a category.
     private func categoryTapped(_ categoryName: String) async {
         guard let category = Category(rawValue: categoryName) else { return }
         currentCategory = category
@@ -137,11 +172,14 @@ final class CharactersViewModel: ObservableObject {
         }
     }
     
+    /// Updates the state after a subcategory is tapped.
     private func updateStateAfterSubCategoryTapped(category: CharacterViewModel) async {
         currentSubCategory = category
+        markCategoryAsSelected(category.parent)
         try? await fetchDataIfNeeded(resetPagination: false, resetData: false)
     }
 
+    /// Gets subcategories for a given category.
     private func getSubCategories(for category: Category) async -> [CharacterViewModel] {
         switch category {
         case .status:
@@ -152,7 +190,34 @@ final class CharactersViewModel: ObservableObject {
             return Character.Gender.allCases.map { CharacterViewModel(text: $0.rawValue, colorString: $0.color, parent: category) }
         }
     }
+
+    /// Marks a category as selected.
+    private func markCategoryAsSelected(_ category: Category?) {
+        guard let category = category, let loadedState = state.loadedState else { return }
+        let updatedCategories = loadedState.categories.map { cat in
+            var updatedCategory = cat
+            if updatedCategory.text == category.rawValue {
+                updatedCategory.isSelected = true
+            } else {
+                updatedCategory.isSelected = false
+            }
+            return updatedCategory
+        }
+        updateState(.loaded(loadedState.newState(categories: updatedCategories, categorySelected: category)))
+    }
     
+    /// Toggles the selection of a category.
+    private func toggleCategorySelection(categoryName: String) {
+        guard let loadedState = state.loadedState,
+              let index = loadedState.categories.firstIndex(where: { $0.text == categoryName }) else {
+            return
+        }
+        var updatedCategories = loadedState.categories
+        updatedCategories[index].isSelected.toggle()
+        updateState(.loaded(.init(characters: loadedState.characters, categories: updatedCategories, categorySelected: updatedCategories[index].isSelected ? Category(rawValue: categoryName) : nil)))
+    }
+    
+    /// Filters characters by subcategory.
     private func filterCharacters(bySubCategory subCategory: CharacterViewModel, in characters: [Character]) -> [Character] {
         let subcategoryText = subCategory.text.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         
@@ -222,11 +287,11 @@ extension CharactersViewModel {
             let categorySelected: Category?
             var subCategories: [CharacterViewModel]?
             
-            func newState(characters: [Character]? = nil, subCategories: [CharacterViewModel]? = nil) -> LoadedState {
+            func newState(characters: [Character]? = nil, categories: [CharacterViewModel]? = nil, subCategories: [CharacterViewModel]? = nil, categorySelected: Category? = nil) -> LoadedState {
                 return LoadedState(
                     characters: characters ?? self.characters,
-                    categories: self.categories,
-                    categorySelected: self.categorySelected,
+                    categories: categories ?? self.categories,
+                    categorySelected: categorySelected ?? self.categorySelected,
                     subCategories: subCategories ?? self.subCategories
                 )
             }
