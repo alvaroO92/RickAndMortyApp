@@ -46,6 +46,7 @@
 		3859A0B32BF79294006D87F4 /* NetworkTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3859A0B22BF79294006D87F4 /* NetworkTest.swift */; };
 		386D53122BF8BBAE00552E58 /* AlamofireNetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386D53112BF8BBAE00552E58 /* AlamofireNetworkRequest.swift */; };
 		386D53182BF8C6DF00552E58 /* JsonEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386D53172BF8C6DF00552E58 /* JsonEncoder.swift */; };
+		386D531C2BF8CA2500552E58 /* CharactersRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 386D531B2BF8CA2500552E58 /* CharactersRepositoryTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +107,7 @@
 		3859A0B22BF79294006D87F4 /* NetworkTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTest.swift; sourceTree = "<group>"; };
 		386D53112BF8BBAE00552E58 /* AlamofireNetworkRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlamofireNetworkRequest.swift; sourceTree = "<group>"; };
 		386D53172BF8C6DF00552E58 /* JsonEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonEncoder.swift; sourceTree = "<group>"; };
+		386D531B2BF8CA2500552E58 /* CharactersRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersRepositoryTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -352,10 +354,27 @@
 		3859A0AA2BF7895B006D87F4 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				386D531A2BF8CA0400552E58 /* API */,
+				386D53192BF8C9F600552E58 /* Repository */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		386D53192BF8C9F600552E58 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				386D531B2BF8CA2500552E58 /* CharactersRepositoryTests.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		386D531A2BF8CA0400552E58 /* API */ = {
+			isa = PBXGroup;
+			children = (
 				3859A0B02BF7926B006D87F4 /* MockNetworkRequest.swift */,
 				3859A0B22BF79294006D87F4 /* NetworkTest.swift */,
 			);
-			path = Data;
+			path = API;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -535,6 +554,7 @@
 			files = (
 				3859A0B12BF7926B006D87F4 /* MockNetworkRequest.swift in Sources */,
 				3859A0B32BF79294006D87F4 /* NetworkTest.swift in Sources */,
+				386D531C2BF8CA2500552E58 /* CharactersRepositoryTests.swift in Sources */,
 				3859A0432BF73923006D87F4 /* RickAndMortyAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
