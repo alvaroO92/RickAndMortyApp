@@ -10,37 +10,64 @@ import os.log
 import Alamofire
 
 public struct Logger {
-
-   public static func log(model: LogModel, responseType: Codable.Type? = nil) {
-         let icon = Logger.icon(logType: model.logType)
-         var logComponents: [String] = ["[\(icon)] \(model.timestamp)"]
-         
-         if let method = model.method, !method.rawValue.isEmpty {
-             logComponents.append("Method: \(method.rawValue)")
-         }
-         
-         if let responseCode = model.responseCode {
-             logComponents.append("Response Code: \(responseCode)")
-         }
-         
-         if let responseData = model.responseData, !responseData.isEmpty, let responseType {
-             do {
-                let decoder = JSONDecoder()
-                let decodedResponse = try decoder.decode(responseType, from: responseData)
-                let jsonString = JSONEncoder().logEncodedAndPrettyPrinted(decodedResponse)
+    
+    typealias LogHandler = (String) -> Void
+    
+    var logHandler: LogHandler?
+    
+   init(logHandler: LogHandler? = nil) {
+        self.logHandler = logHandler
+    }
+    
+    func log(model: LogModel) {
+        let logString = generateLogString(from: model)
+        os_log("%{public}s", logString)
+        logHandler?(logString)
+    }
+    
+    func generateLogString(from model: LogModel) -> String {
+        var logComponents: [String] = ["[\(icon(logType: model.logType))] \(model.timestamp)"]
+        
+        if let method = model.method, !method.rawValue.isEmpty {
+            logComponents.append("Method: \(method.rawValue)")
+        }
+        
+        if let responseCode = model.responseCode {
+            logComponents.append("Response Code: \(responseCode)")
+        }
+        
+        if let responseData = model.responseData, !responseData.isEmpty {
+            do {
+                let jsonString = try logEncodedAndPrettyPrinted(responseData)
                 logComponents.append("Response Data: \(jsonString)")
-             } catch {
-                 logComponents.append("Response Data: (Failed to decode JSON: \(error))")
-             }
-         }
-         
-         if let description = model.description, !description.isEmpty {
-             logComponents.append("Description: \(description)")
-         }
-         
-         let logString = logComponents.joined(separator: "\n")
-         os_log("%{public}s", logString)
-     }
+            } catch {
+                logComponents.append("Response Data: (Failed to decode JSON: \(error))")
+            }
+        }
+        
+        if let description = model.description, !description.isEmpty {
+            logComponents.append("Description: \(description)")
+        }
+        
+        return logComponents.joined(separator: "\n")
+    }
+    
+    private func icon(logType: LogType) -> String {
+        switch logType {
+        case .info: return "ℹ️"
+        case .warning: return "⚠️"
+        case .error: return "❌"
+        }
+    }
+    
+    private func logEncodedAndPrettyPrinted(_ data: Data) throws -> String {
+        let prettyPrintedJSON = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+        let prettyData = try JSONSerialization.data(withJSONObject: prettyPrintedJSON, options: .prettyPrinted)
+        guard let prettyString = String(data: prettyData, encoding: .utf8) else {
+            throw NSError(domain: "Failed to pretty print JSON", code: 0, userInfo: nil)
+        }
+        return prettyString
+    }
 }
 
 extension Logger {

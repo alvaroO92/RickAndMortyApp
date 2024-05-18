@@ -55,8 +55,7 @@ public class Network {
          responseCode: nil,
          responseData: data
       )
-      
-      Logger.log(model: model, responseType: T.self)
+      Logger().log(model: model)
       
       let responseData = try JSONDecoder().decode(T.self, from: data)
       return responseData
