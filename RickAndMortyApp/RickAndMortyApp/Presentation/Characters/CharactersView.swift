@@ -44,7 +44,6 @@ struct CharactersView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         viewModel.send(.refresh)
-                      //  isResetEnabled = false
                     }) {
                         Text("Reset")
                     }
