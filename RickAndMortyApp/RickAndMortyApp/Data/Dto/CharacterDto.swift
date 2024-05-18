@@ -15,16 +15,3 @@ struct CharacterDto: Codable, Equatable {
     let gender: String?
     let image: String?
 }
-
-extension CharacterDto {
-    
-    public static let mock = CharacterDto(
-        id: UUID().hashValue,
-        name: "name",
-        status: "alive",
-        species: "animal",
-        gender: "female",
-        image: ""
-    )
-    
-}

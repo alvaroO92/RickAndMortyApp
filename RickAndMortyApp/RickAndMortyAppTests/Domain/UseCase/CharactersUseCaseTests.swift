@@ -24,7 +24,7 @@ final class CharactersUseCaseTests: XCTestCase {
       let characters = try await sut.getCharacters(1)
       
       XCTAssertTrue(characters.characters.count > 0)
-      XCTAssertEqual(characters.characters.first, Character.mock)
+      XCTAssertEqual(characters.characters.first?.name, "Rick Sanchez")
    }
 
 }

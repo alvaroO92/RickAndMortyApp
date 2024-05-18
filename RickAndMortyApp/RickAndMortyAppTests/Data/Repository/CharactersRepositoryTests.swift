@@ -21,11 +21,11 @@ final class CharactersRepositoryTests: XCTestCase {
 
 
    func testGetCharacters() async throws {
-      
+      let expectedCharacter = CharacterDto(id: 1, name: "Rick Sanchez", status: "alive", species: "human", gender: "male", image: "https://rickandmortyapi.com/api/character/avatar/5.jpeg")
       let characters = try await sut.getCharacters(1)
       
       XCTAssertTrue(characters.results.count > 0)
-      XCTAssertEqual(characters.results.first, CharacterDto.mock)
+      XCTAssertEqual(characters.results.first, expectedCharacter)
    }
 
 }

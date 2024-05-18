@@ -48,7 +48,6 @@ struct CharactersView: View {
                     }) {
                         Text("Reset")
                     }
-                  //  .disabled(!isResetEnabled)
                 }
             }
         }
@@ -71,8 +70,11 @@ struct CharactersView: View {
             }
         }
         .onChange(of: viewModel.state) { _, newState in
-            guard let state = newState.loadedState else { return }
-          //  isResetEnabled = state.subCategories?.isEmpty == false
+           if let state = newState.loadedState, state.subCategories != nil {
+              isSheetPresented = true
+           } else {
+              isSheetPresented = false
+           }
         }
     }
     
@@ -81,7 +83,6 @@ struct CharactersView: View {
         VStack(spacing: 8) {
             HorizontalFilterView(categories: state.categories) { category in
                 viewModel.send(.categoryTapped(category.text))
-                isSheetPresented = true
             }
             CharactersScrollView(characters: state.characters) {
                 viewModel.send(.loadMore)

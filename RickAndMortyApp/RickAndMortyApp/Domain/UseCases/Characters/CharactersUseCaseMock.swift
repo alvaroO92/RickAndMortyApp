@@ -16,4 +16,8 @@ extension CharactersUseCase {
          return Characters.from(charactersDto: result)
       }
    )
+   
+   public static let error = Self { _ in
+      throw NSError(domain: "", code: 401)
+   }
 }
