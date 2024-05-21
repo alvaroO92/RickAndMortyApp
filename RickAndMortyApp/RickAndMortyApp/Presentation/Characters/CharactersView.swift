@@ -55,7 +55,7 @@ struct CharactersView: View {
                 viewModel.send(.viewAppeared)
             }
         }
-        .onChange(of: searchText) { _, newValue in
+        .onChange(of: searchText) { newValue in
             viewModel.send(.search(newValue))
         }
         .sheet(isPresented: $isSheetPresented) {
@@ -68,7 +68,7 @@ struct CharactersView: View {
                 .presentationDetents([.fraction(0.3), .medium, .large])
             }
         }
-        .onChange(of: viewModel.state) { _, newState in
+        .onChange(of: viewModel.state) { newState in
            if let state = newState.loadedState, state.subCategories != nil {
               isSheetPresented = true
            } else {

@@ -37,7 +37,7 @@ struct SearchBarView: View {
                     }
                 )
                 .padding(.horizontal, 10)
-                .onChange(of: typingText) { _, newValue in
+                .onChange(of: typingText) { newValue in
                     self.text = newValue
                 }
         }
